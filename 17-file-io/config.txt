@@ -1,0 +1,5 @@
+# 应用配置文件
+app_name=GeekMoGoApp
+version=1.0.0
+debug=true
+database=postgres://localhost:5432/app
