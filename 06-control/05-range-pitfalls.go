@@ -51,27 +51,31 @@ func main() {
 	// 陷阱 2：循环变量地址问题
 	fmt.Println("\n=== Pitfall 2: Loop variable address ===")
 
-	// 错误：所有指针指向同一个变量
+	// ❌ 错误做法（针对 Go 1.22 之前的版本）
+	// 在 Go 1.22 之前，v 在整个循环中只有一个实例，每次迭代只是改变它的值
+	// 所以取地址 &v 得到的永远是同一个内存地址
 	var ptrs []*int
 	nums := []int{1, 2, 3}
 	for _, v := range nums {
-		ptrs = append(ptrs, &v) // 危险！
+		ptrs = append(ptrs, &v) // 危险！在旧版本中，所有指针都指向同一个 v
 	}
 
-	fmt.Println("Wrong way (all pointers point to the same variable):")
+	fmt.Println("Old way (Go < 1.22, all pointers point to the same address):")
 	for i, ptr := range ptrs {
 		fmt.Printf("ptrs[%d] = %d\n", i, *ptr)
 	}
-	// 输出都是 3
+	// 在 Go 1.22 之前，输出都是 3
+	// 在 Go 1.22 及之后，Go 编译器已经将 v 的作用域改为每次迭代创建一个新变量
+	// 所以即使不显式创建新变量，输出也会是 1, 2, 3
 
-	// 正确方式：创建新变量
+	// ✅ 兼容性写法（在旧版本中手动创建新变量）
 	var correctPtrs []*int
 	for _, v := range nums {
-		v := v // 创建新变量（Go 1.22+ 不需要这一行）
+		v := v // 创建新变量，遮蔽循环变量。在 Go 1.22+ 已经不需要这一行了
 		correctPtrs = append(correctPtrs, &v)
 	}
 
-	fmt.Println("\nCorrect way:")
+	fmt.Println("\nCompatible way (Manual shadowing):")
 	for i, ptr := range correctPtrs {
 		fmt.Printf("correctPtrs[%d] = %d\n", i, *ptr)
 	}
