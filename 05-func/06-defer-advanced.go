@@ -73,7 +73,11 @@ func readFile(filename string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close() // 确保函数返回前关闭文件
+	// defer file.Close() // 为了打印关闭信息，这里我们在建一个匿名函数
+	defer func() {
+		file.Close() // 确保函数返回前关闭文件
+		fmt.Println("文件io正常关闭")
+	}()
 
 	// 读取文件内容...
 	// 即使发生错误，defer 也会执行
@@ -166,4 +170,8 @@ func main() {
 
 	// 8. 多个 defer
 	multipleDefers()
+
+	// 9. defer确保资源关闭
+	err := readFile("06-defer-advanced.go")
+	fmt.Println(err)
 }
