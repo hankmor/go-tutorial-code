@@ -16,6 +16,7 @@
 | 工程实践：项目结构 | `../14-project-layout` |
 | 工程实践：项目实战结构 | `../15-project-example` |
 | 工程实践：环境变量与配置 | `../18-advanced/config` |
+| 工程实践：日志管理 | `../18-advanced/logging` |
 | 项目架构与综合实战 | `blog-api` |
 | 部署 | `deploy` |
 | 监控与可观测性 | `observability` |
