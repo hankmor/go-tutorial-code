@@ -49,12 +49,26 @@ func FindUser(db *gorm.DB, id uint) (User, error) {
 
 // UpdateUserAge 更新用户年龄，包括将年龄设置为零的情况。
 func UpdateUserAge(db *gorm.DB, id uint, age int) error {
-	return db.Model(&User{}).Where("id = ?", id).Update("age", age).Error
+	result := db.Model(&User{}).Where("id = ?", id).Update("age", age)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
 
 // DeleteUser 软删除用户，后续普通查询不会返回该用户。
 func DeleteUser(db *gorm.DB, id uint) error {
-	return db.Delete(&User{}, id).Error
+	result := db.Delete(&User{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
 
 func main() {

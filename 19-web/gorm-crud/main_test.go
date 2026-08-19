@@ -57,6 +57,18 @@ func TestCreateRejectsDuplicateEmail(t *testing.T) {
 	}
 }
 
+// TestUpdateAndDeleteReturnNotFound 验证更新和删除不存在的记录会返回明确错误。
+func TestUpdateAndDeleteReturnNotFound(t *testing.T) {
+	db := newTestDB(t)
+
+	if err := UpdateUserAge(db, 999, 0); !errors.Is(err, gorm.ErrRecordNotFound) {
+		t.Fatalf("update error = %v, want gorm.ErrRecordNotFound", err)
+	}
+	if err := DeleteUser(db, 999); !errors.Is(err, gorm.ErrRecordNotFound) {
+		t.Fatalf("delete error = %v, want gorm.ErrRecordNotFound", err)
+	}
+}
+
 func newTestDB(t *testing.T) *gorm.DB {
 	t.Helper()
 	db, err := NewDB()
