@@ -13,6 +13,8 @@
 | 跨域与优雅关闭 | `cors`、`graceful` |
 | GORM 入门与 CRUD | `gorm-crud` |
 | GORM 高级特性 | `gorm-advanced` |
+| 工程实践：项目结构 | `../14-project-layout` |
+| 工程实践：项目实战结构 | `../15-project-example` |
 | 项目架构与综合实战 | `blog-api` |
 | 部署 | `deploy` |
 | 监控与可观测性 | `observability` |
