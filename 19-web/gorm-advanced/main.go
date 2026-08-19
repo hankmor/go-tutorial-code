@@ -55,7 +55,7 @@ func NewDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open database: %w", err)
 	}
-	if err := db.AutoMigrate(&Author{}, &Post{}, &Tag{}, &Order{}, &Product{}, &Purchase{}, &HookUser{}); err != nil {
+	if err := db.AutoMigrate(&Author{}, &Post{}, &Tag{}, &Order{}, &Product{}, &Purchase{}, &HookUser{}, &MetadataRecord{}); err != nil {
 		return nil, fmt.Errorf("migrate association models: %w", err)
 	}
 	return db, nil
