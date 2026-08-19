@@ -12,6 +12,8 @@ import (
 type Author struct {
 	ID     uint `gorm:"primaryKey"`
 	Name   string
+	Age    int    `gorm:"not null;default:18"`
+	Status string `gorm:"size:20;index"`
 	Posts  []Post
 	Orders []Order
 }
@@ -53,7 +55,7 @@ func NewDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open database: %w", err)
 	}
-	if err := db.AutoMigrate(&Author{}, &Post{}, &Tag{}, &Order{}); err != nil {
+	if err := db.AutoMigrate(&Author{}, &Post{}, &Tag{}, &Order{}, &Product{}, &Purchase{}, &HookUser{}); err != nil {
 		return nil, fmt.Errorf("migrate association models: %w", err)
 	}
 	return db, nil
@@ -63,7 +65,7 @@ func NewDB() (*gorm.DB, error) {
 func SeedGraph(db *gorm.DB) (Author, error) {
 	var author Author
 	err := db.Transaction(func(tx *gorm.DB) error {
-		author = Author{Name: "Ada"}
+		author = Author{Name: "Ada", Age: 30, Status: "active"}
 		if err := tx.Create(&author).Error; err != nil {
 			return err
 		}
